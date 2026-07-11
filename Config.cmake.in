@@ -1,0 +1,51 @@
+@PACKAGE_INIT@
+
+# 设置变量
+set(QtMaterial_VERSION @PROJECT_VERSION@)
+
+# 包含 Targets
+include("${CMAKE_CURRENT_LIST_DIR}/QtMaterialTargets.cmake")
+
+# 设置库和包含路径
+set(QtMaterial_LIBRARIES QtMaterial::QtMaterial)
+set(QtMaterial_INCLUDE_DIRS "${PACKAGE_PREFIX_DIR}/@CMAKE_INSTALL_INCLUDEDIR@/QtMaterial")
+
+# 提供静态/动态库选择
+if(NOT DEFINED QtMaterial_USE_STATIC_LIBS)
+    set(QtMaterial_USE_STATIC_LIBS OFF CACHE BOOL "Use static QtMaterial libraries")
+endif()
+
+if(QtMaterial_USE_STATIC_LIBS)
+    set(QtMaterial_LIBRARY QtMaterial::QtMaterial_STATIC)
+else()
+    set(QtMaterial_LIBRARY QtMaterial::QtMaterial_SHARED)
+endif()
+
+# 设置组件
+set(QtMaterial_FOUND_COMPONENTS ${QtMaterial_FIND_COMPONENTS})
+
+# 检查组件
+check_required_components(QtMaterial)
+
+# 导出变量
+set(QtMaterial_FOUND TRUE)
+
+# 创建别名（如果不存在）
+if(NOT TARGET QtMaterial::QtMaterial)
+    if(TARGET QtMaterial)
+        add_library(QtMaterial::QtMaterial ALIAS QtMaterial)
+    endif()
+endif()
+
+# 版本信息
+set(QtMaterial_VERSION_STRING "@PROJECT_VERSION@")
+set(QtMaterial_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+set(QtMaterial_VERSION_MINOR @PROJECT_VERSION_MINOR@)
+set(QtMaterial_VERSION_PATCH @PROJECT_VERSION_PATCH@)
+
+# 打印信息（非安静模式）
+if(NOT QtMaterial_FIND_QUIETLY)
+    message(STATUS "Found QtMaterial: ${QtMaterial_VERSION_STRING}")
+    message(STATUS "  Include: ${QtMaterial_INCLUDE_DIRS}")
+    message(STATUS "  Library: ${QtMaterial_LIBRARY}")
+endif()
