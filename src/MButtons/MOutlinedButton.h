@@ -4,7 +4,7 @@
 
 #include "MButtonBase.h"
 
-class QTMBUTTON_EXPORT MOutlinedButton : public MButtonBase
+class QTMATERIAL_EXPORT MOutlinedButton : public MButtonBase
 {
     Q_OBJECT
     Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth)

@@ -4,7 +4,7 @@
 
 #include "MButtonBase.h"
 
-class QTMBUTTON_EXPORT MFilledButton : public MButtonBase
+class QTMATERIAL_EXPORT MFilledButton : public MButtonBase
 {
     Q_OBJECT
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)

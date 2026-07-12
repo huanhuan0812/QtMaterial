@@ -7,7 +7,21 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 
-class MCard : public MWidgetBase
+#ifdef QTMATERIAL_LIBRARY
+    #ifdef _WIN32
+        #ifdef QTMATERIAL_SHARED
+            #define QTMATERIAL_EXPORT __declspec(dllexport)
+        #else
+            #define QTMATERIAL_EXPORT __declspec(dllimport)
+        #endif
+    #else
+        #define QTMATERIAL_EXPORT __attribute__((visibility("default")))
+    #endif
+#else
+    #define QTMATERIAL_EXPORT
+#endif
+
+class QTMATERIAL_EXPORT MCard : public MWidgetBase
 {
     Q_OBJECT
     Q_PROPERTY(bool checkable READ isCheckable WRITE setCheckable)

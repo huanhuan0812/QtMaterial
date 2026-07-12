@@ -4,7 +4,7 @@
 
 #include "MButtonBase.h"
 
-class QTMBUTTON_EXPORT MElevatedButton : public MButtonBase
+class QTMATERIAL_EXPORT MElevatedButton : public MButtonBase
 {
     Q_OBJECT
     Q_PROPERTY(qreal elevation READ elevation WRITE setElevation)

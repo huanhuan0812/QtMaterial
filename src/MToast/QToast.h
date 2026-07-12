@@ -8,21 +8,21 @@
 #include <QGraphicsOpacityEffect>
 
 // 导出宏定义
-#ifdef QTOAST_LIBRARY
+#ifdef QTMATERIAL_LIBRARY
     #ifdef _WIN32
-        #ifdef QTOAST_SHARED
-            #define QTOAST_EXPORT __declspec(dllexport)
+        #ifdef QTMATERIAL_SHARED
+            #define QTMATERIAL_EXPORT __declspec(dllexport)
         #else
-            #define QTOAST_EXPORT __declspec(dllimport)
+            #define QTMATERIAL_EXPORT __declspec(dllimport)
         #endif
     #else
-        #define QTOAST_EXPORT __attribute__((visibility("default")))
+        #define QTMATERIAL_EXPORT __attribute__((visibility("default")))
     #endif
 #else
-    #define QTOAST_EXPORT
+    #define QTMATERIAL_EXPORT
 #endif
 
-class QTOAST_EXPORT QToast : public QWidget
+class QTMATERIAL_EXPORT QToast : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)

@@ -13,6 +13,20 @@
 #include <QDebug>
 #include <QEnterEvent>
 
+#ifdef QTMATERIAL_LIBRARY
+    #ifdef _WIN32
+        #ifdef QTMATERIAL_SHARED
+            #define QTMATERIAL_EXPORT __declspec(dllexport)
+        #else
+            #define QTMATERIAL_EXPORT __declspec(dllimport)
+        #endif
+    #else
+        #define QTMATERIAL_EXPORT __attribute__((visibility("default")))
+    #endif
+#else
+    #define QTMATERIAL_EXPORT
+#endif
+
 // Material Design 3 颜色系统
 struct MColorScheme {
     // Primary colors
@@ -69,7 +83,7 @@ enum class MThemeMode {
     System
 };
 
-class MWidgetBase : public QWidget
+class QTMATERIAL_EXPORT MWidgetBase : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(qreal elevation READ getElevation WRITE setElevation)

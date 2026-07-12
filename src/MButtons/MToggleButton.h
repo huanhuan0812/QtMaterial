@@ -4,7 +4,7 @@
 
 #include "MButtonBase.h"
 
-class QTMBUTTON_EXPORT MToggleButton : public MButtonBase
+class QTMATERIAL_EXPORT MToggleButton : public MButtonBase
 {
     Q_OBJECT
     Q_PROPERTY(bool checked READ isChecked WRITE setChecked NOTIFY toggled)

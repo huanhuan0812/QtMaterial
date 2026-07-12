@@ -1,19 +1,19 @@
-// MBaseButton.h
-#ifndef MBASEBUTTON_H
-#define MBASEBUTTON_H
+// MButtonBase.h
+#ifndef MBUTTONBASE_H
+#define MBUTTONBASE_H
 
 #include <QPushButton>
 #include <QColor>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 
-#ifdef QTMBUTTON_LIBRARY
-#  define QTMBUTTON_EXPORT Q_DECL_EXPORT
+#ifdef QTMATERIAL_LIBRARY
+#  define QTMATERIAL_EXPORT Q_DECL_EXPORT
 #else
-#  define QTMBUTTON_EXPORT Q_DECL_IMPORT
+#  define QTMATERIAL_EXPORT Q_DECL_IMPORT
 #endif
 
-class QTMBUTTON_EXPORT MButtonBase : public QPushButton
+class QTMATERIAL_EXPORT MButtonBase : public QPushButton
 {
     Q_OBJECT
 
@@ -174,4 +174,4 @@ private:
     QPropertyAnimation *m_hoverElevationAnimation;
 };
 
-#endif // MBASEBUTTON_H
+#endif // MBUTTONBASE_H

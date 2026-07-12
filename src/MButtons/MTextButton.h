@@ -4,7 +4,7 @@
 
 #include "MButtonBase.h"
 
-class QTMBUTTON_EXPORT MTextButton : public MButtonBase
+class QTMATERIAL_EXPORT MTextButton : public MButtonBase
 {
     Q_OBJECT
 
