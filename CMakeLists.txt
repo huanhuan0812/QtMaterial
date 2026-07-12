@@ -52,10 +52,21 @@ set(TOAST_HEADERS
     src/MToast/QToast.h
 )
 
+set(WIDGET_SOURCES
+    src/MWidgets/MWidgetBase.cpp
+    src/MWidgets/MCard.cpp
+)
+
+set(WIDGET_HEADERS
+    src/MWidgets/MWidgetBase.h
+    src/MWidgets/MCard.h
+)
+
 # 合并所有源文件
 set(QTMATERIAL_SOURCES
     ${BUTTON_SOURCES}
     ${TOAST_SOURCES}
+    ${WIDGET_SOURCES}
 )
 
 set(QTMATERIAL_HEADERS
