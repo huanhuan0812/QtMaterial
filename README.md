@@ -41,6 +41,7 @@ QtMaterial 是一个轻量级、跨平台的 Qt 组件库，严格遵循 **Mater
 - [ ] MDialog - 对话框
 - [ ] MNavigationBar - 底部导航栏
 - [ ] MAppBar - 应用栏
+- [ ] 其他控件
 
 ---
 
@@ -54,48 +55,7 @@ QtMaterial 是一个轻量级、跨平台的 Qt 组件库，严格遵循 **Mater
 
 ### 集成到项目
 
-#### 方式一：源码集成（推荐）
-
-```bash
-# 克隆仓库
-git clone https://github.com/yourusername/QtMaterial.git
-
-# 将 src/ 目录复制到你的项目下
-```
-
-在 `.pro` 文件中添加：
-
-```qmake
-# 包含头文件路径
-INCLUDEPATH += $$PWD/QtMaterial/src
-
-# 添加源文件
-HEADERS += $$PWD/QtMaterial/src/MCard.h \
-           $$PWD/QtMaterial/src/MWidgetBase.h \
-           $$PWD/QtMaterial/src/QToast.h \
-           $$PWD/QtMaterial/src/MBaseButton.h \
-           $$PWD/QtMaterial/src/MOutlinedButton.h \
-           $$PWD/QtMaterial/src/MFilledButton.h \
-           $$PWD/QtMaterial/src/MTextButton.h
-
-SOURCES += $$PWD/QtMaterial/src/MCard.cpp \
-           $$PWD/QtMaterial/src/MWidgetBase.cpp \
-           $$PWD/QtMaterial/src/QToast.cpp \
-           $$PWD/QtMaterial/src/MBaseButton.cpp \
-           $$PWD/QtMaterial/src/MOutlinedButton.cpp \
-           $$PWD/QtMaterial/src/MFilledButton.cpp \
-           $$PWD/QtMaterial/src/MTextButton.cpp
-```
-
-#### 方式二：CMake 集成
-
-```cmake
-# 添加子目录
-add_subdirectory(QtMaterial)
-
-# 链接库
-target_link_libraries(your_app QtMaterial)
-```
+编译安装后使用`find_package()`
 
 ### 第一个应用
 
@@ -156,7 +116,7 @@ int main(int argc, char *argv[]) {
 
 ### MCard - 卡片控件
 
-> 详细的 API 文档请参阅 [MCard/README.md](src/MCard/README.md)
+> 详细的 API 文档请参阅 [MCard/README.md](src/MWidget/README.md)
 
 ```cpp
 // 基本用法
@@ -177,7 +137,7 @@ card->setCornerRadius(16);  // 圆角半径
 
 ### QToast - 吐司提示
 
-> 详细的 API 文档请参阅 [QToast/README.md](src/QToast/README.md)
+> 详细的 API 文档请参阅 [QToast/README.md](src/MToast/README.md)
 
 ```cpp
 // 最简调用
@@ -198,7 +158,7 @@ toast->show();
 
 ### Material Design 按钮
 
-> 详细的 API 文档请参阅 [Buttons/README.md](src/Buttons/README.md)
+> 详细的 API 文档请参阅 [MButtons/README.md](src/MButtons/README.md)
 
 ```cpp
 // 填充按钮 - 主要操作
