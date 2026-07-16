@@ -1,141 +1,116 @@
 #ifndef MCARD_H
 #define MCARD_H
 
-#include "MWidgetBase.h"
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QPushButton>
+#include <QWidget>
+#include <QPainter>
+#include <QPainterPath>
+#include <QMouseEvent>
+#include <QGraphicsDropShadowEffect>
+#include <QLayout>
+#include <QStyleOption>
 
-#ifdef QTMATERIAL_LIBRARY
-    #ifdef _WIN32
-        #ifdef QTMATERIAL_SHARED
-            #define QTMATERIAL_EXPORT __declspec(dllexport)
-        #else
-            #define QTMATERIAL_EXPORT __declspec(dllimport)
-        #endif
-    #else
-        #define QTMATERIAL_EXPORT __attribute__((visibility("default")))
-    #endif
-#else
-    #define QTMATERIAL_EXPORT
-#endif
+#include "utils/MTheme.h"
 
-class QTMATERIAL_EXPORT MCard : public MWidgetBase
+class MCard : public QWidget
 {
     Q_OBJECT
-    Q_PROPERTY(bool checkable READ isCheckable WRITE setCheckable)
-    Q_PROPERTY(bool checked READ isChecked WRITE setChecked NOTIFY checkedChanged)
-    Q_PROPERTY(bool clickable READ isClickable WRITE setClickable)
+    Q_PROPERTY(Type type READ type WRITE setType)
+    Q_PROPERTY(int radius READ radius WRITE setRadius)
+    Q_PROPERTY(int padding READ padding WRITE setPadding)
+    Q_PROPERTY(QColor containerColor READ containerColor WRITE setContainerColor)
+    Q_PROPERTY(QColor outlineColor READ outlineColor WRITE setOutlineColor)
+    Q_PROPERTY(int elevationLevel READ elevationLevel WRITE setElevationLevel)
+    Q_PROPERTY(bool hovered READ hovered WRITE setHovered)
+    Q_PROPERTY(bool pressed READ pressed WRITE setPressed)
 
 public:
-    explicit MCard(QWidget *parent = nullptr);
-    explicit MCard(const QString &title, QWidget *parent = nullptr);
-    virtual ~MCard();
+    enum class Type {
+        Elevated,
+        Filled,
+        Outlined
+    };
+    Q_ENUM(Type)
 
-    // === 内容设置 ===
-    void setTitle(const QString &title);
-    QString title() const { return m_titleText; }
-    void setSubtitle(const QString &subtitle);
-    QString subtitle() const { return m_subtitleText; }
-    void setContentWidget(QWidget *widget);
+    explicit MCard(QWidget* parent = nullptr);
+    ~MCard() override = default;
+
+    // Type
+    Type type() const { return m_type; }
+    void setType(Type type);
+
+    // Radius
+    int radius() const { return m_radius; }
+    void setRadius(int radius);
+
+    // Padding
+    int padding() const { return m_padding; }
+    void setPadding(int padding);
+
+    // Colors
+    QColor containerColor() const { return m_containerColor; }
+    void setContainerColor(const QColor& color);
+
+    QColor outlineColor() const { return m_outlineColor; }
+    void setOutlineColor(const QColor& color);
+
+    // Elevation
+    int elevationLevel() const { return m_elevationLevel; }
+    void setElevationLevel(int level);
+
+    // States
+    bool hovered() const { return m_hovered; }
+    void setHovered(bool hovered);
+
+    bool pressed() const { return m_pressed; }
+    void setPressed(bool pressed);
+
+    // Content management
+    void setContentWidget(QWidget* widget);
     QWidget* contentWidget() const { return m_contentWidget; }
-
-    // === 自适应控制 ===
-    void setAutoResize(bool autoResize);
-    bool autoResize() const { return m_autoResize; }
-    QSize contentSizeHint() const;
-
-    // === 交互模式 ===
-    void setCheckable(bool checkable);
-    bool isCheckable() const { return m_checkable; }
-    void setChecked(bool checked);
-    bool isChecked() const { return m_checked; }
-    void setClickable(bool clickable);
-    bool isClickable() const { return m_clickable; }
-
-    // === 卡片样式 ===
-    void setOutlined(bool outlined);
-    bool isOutlined() const { return m_outlined; }
-    void setElevated(bool elevated);
-    bool isElevated() const { return m_elevated; }
-    void setCornerRadius(qreal radius);
-
-    // 重写基类方法以同步阴影状态
-    void setShadowEnabled(bool enabled);
-
-    // === 尺寸控制 ===
-    void setFixedWidth(int width);
-    void setFixedHeight(int height);
-    void setMaximumWidth(int width);
-    void setMaximumHeight(int height);
-    void setMinimumWidth(int width);
-    void setMinimumHeight(int height);
 
 signals:
     void clicked();
-    void pressed();
-    void released();
-    void checkedChanged(bool checked);
-    void entered();
-    void left();
+    void typeChanged();
+    void radiusChanged();
+    void paddingChanged();
+    void containerColorChanged();
+    void outlineColorChanged();
+    void elevationLevelChanged();
+    void hoveredChanged();
+    void pressedChanged();
 
 protected:
-    void drawForeground(QPainter *painter, const QRect &rect) override;
-    void onHoverEnter() override;
-    void onHoverLeave() override;
-    void onPress() override;
-    void onRelease() override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
-    void mouseDoubleClickEvent(QMouseEvent *event) override;
-    void resizeEvent(QResizeEvent *event) override;
-    
-    virtual void updateCardAppearance();
-    QSize sizeHint() const override;
-    QSize minimumSizeHint() const override;
+    void paintEvent(QPaintEvent* event) override;
+    void enterEvent(QEnterEvent* event) override;
+    void leaveEvent(QEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
+    bool event(QEvent* event) override;
 
 private:
-    void initCard();
-    void setupLayout();
     void updateStyle();
-    void updateSizePolicy();
-    void updateMask();
-    void updateLayoutMargins();
-
-private slots:
-    void onContentClicked();
+    void updateShadow();
+    QColor getDefaultContainerColor() const;
+    QColor getDefaultOutlineColor() const;
+    int getDefaultElevationLevel() const;
+    void updateContentMargins();
 
 private:
-    // === 尺寸限制常量 ===
-    static constexpr int MIN_CARD_WIDTH = 100;
-    static constexpr int MIN_CARD_HEIGHT = 80;  // 【修改】从60改为80
-    static constexpr int SHADOW_MARGIN = 10;     // 阴影预留边距
+    Type m_type = Type::Elevated;
+    int m_radius = 12;
+    int m_padding = 16;
+    QColor m_containerColor;
+    QColor m_outlineColor;
+    int m_elevationLevel = -1;  // -1 means auto-calculate from type
+    bool m_hovered = false;
+    bool m_pressed = false;
 
-    // === UI组件 ===
-    QVBoxLayout *m_mainLayout = nullptr;
-    QHBoxLayout *m_headerLayout = nullptr;
-    QWidget *m_headerWidget = nullptr;
-    QLabel *m_titleLabel = nullptr;
-    QLabel *m_subtitleLabel = nullptr;
-    QWidget *m_contentWidget = nullptr;
-    QWidget *m_contentContainer = nullptr;
+    QWidget* m_contentWidget = nullptr;
+    QGraphicsDropShadowEffect* m_shadowEffect = nullptr;
 
-    // === 内容数据 ===
-    QString m_titleText;
-    QString m_subtitleText;
-
-    // === 交互状态 ===
-    bool m_checkable = false;
-    bool m_checked = false;
-    bool m_clickable = true;
-
-    // === 样式选项 ===
-    bool m_outlined = false;
-    bool m_elevated = false;
-
-    // === 自适应 ===
-    bool m_autoResize = true;
+    // Cache for performance
+    QPainterPath m_cachedPath;
 };
 
 #endif // MCARD_H

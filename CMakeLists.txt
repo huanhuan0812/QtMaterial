@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 project(QtMaterial VERSION 0.1.0 LANGUAGES CXX)
 
 # ==================== 构建选项 ====================
-option(BUILD_EXAMPLES "Build example applications" OFF)  # 改为 OFF
+option(BUILD_EXAMPLES "Build example applications" ON)  # 改为 OFF
 option(BUILD_TESTS "Build tests" OFF)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(BUILD_STATIC_LIBS "Build static libraries" ON)
@@ -26,21 +26,11 @@ qt_standard_project_setup()
 # ==================== 源文件列表 ====================
 # 按钮组件
 set(BUTTON_SOURCES
-    src/MButtons/MButtonBase.cpp
-    src/MButtons/MFilledButton.cpp
-    src/MButtons/MOutlinedButton.cpp
-    src/MButtons/MTextButton.cpp
-    src/MButtons/MElevatedButton.cpp
-    src/MButtons/MToggleButton.cpp
+    src/MButtons/MButton.cpp
 )
 
 set(BUTTON_HEADERS
-    src/MButtons/MButtonBase.h
-    src/MButtons/MFilledButton.h
-    src/MButtons/MOutlinedButton.h
-    src/MButtons/MTextButton.h
-    src/MButtons/MElevatedButton.h
-    src/MButtons/MToggleButton.h
+    src/MButtons/MButton.h
 )
 
 # Toast 组件
@@ -52,14 +42,28 @@ set(TOAST_HEADERS
     src/MToast/QToast.h
 )
 
+# Widget 组件
 set(WIDGET_SOURCES
-    src/MWidgets/MWidgetBase.cpp
+    src/MWidgets/MBlurCard.cpp
     src/MWidgets/MCard.cpp
+    src/MWidgets/MToolTip.cpp
+    src/MWidgets/MMainWindow.cpp
 )
 
 set(WIDGET_HEADERS
-    src/MWidgets/MWidgetBase.h
+    src/MWidgets/MBlurCard.h
     src/MWidgets/MCard.h
+    src/MWidgets/MToolTip.h
+    src/MWidgets/MMainWindow.h
+)
+
+# 其他
+set(OTHER_SOURCES
+    src/utils/MTheme.cpp
+)
+
+set(OTHER_HEADERS
+    src/utils/MTheme.h
 )
 
 # 合并所有源文件
@@ -67,11 +71,14 @@ set(QTMATERIAL_SOURCES
     ${BUTTON_SOURCES}
     ${TOAST_SOURCES}
     ${WIDGET_SOURCES}
+    ${OTHER_SOURCES}
 )
 
 set(QTMATERIAL_HEADERS
     ${BUTTON_HEADERS}
     ${TOAST_HEADERS}
+    ${WIDGET_HEADERS}
+    ${OTHER_HEADERS}
 )
 
 # ==================== 公共配置宏 ====================

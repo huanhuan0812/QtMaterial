@@ -4,16 +4,17 @@
 #include <QPushButton>
 #include <QLabel>
 
-#include "MButtons/MFilledButton.h"
-#include "MButtons/MOutlinedButton.h"
 #include "MToast/QToast.h"
+#include "MButtons/MButton.h"
+#include "MWidgets/MMainWindow.h"
+#include "MWidgets/MCard.h"
 
-class MainWindow : public QMainWindow
+class MainWindow : public MMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget* parent = nullptr) : QMainWindow(parent)
+    MainWindow(QWidget* parent = nullptr) : MMainWindow(parent)
     {
         auto* central = new QWidget(this);
         auto* layout = new QVBoxLayout(central);
@@ -22,17 +23,27 @@ public:
         title->setStyleSheet("font-size: 24px; font-weight: bold; margin: 20px;");
         layout->addWidget(title);
         
-        auto* filledBtn = new MFilledButton("Filled Button", this);
+        auto* filledBtn = new MButton(this);
+        filledBtn->setText("Filled Button");
+        filledBtn->setButtonType(MButton::Filled);
         layout->addWidget(filledBtn);
         
-        auto* outlinedBtn = new MOutlinedButton("Outlined Button", this);
+        auto* outlinedBtn = new MButton(this);
+        outlinedBtn->setText("Outlined Button");
+        outlinedBtn->setButtonType(MButton::Outlined);
         layout->addWidget(outlinedBtn);
         
         auto* toastBtn = new QPushButton("Show Toast", this);
         layout->addWidget(toastBtn);
-        
+
+        auto* card = new MCard(this);
+        card->setType(MCard::Type::Outlined);
+        layout->addWidget(card);
+
+        QLabel* cardLabel = new QLabel("This is a card.", card);
+
         connect(toastBtn, &QPushButton::clicked, this, [this]() {
-            QToast::showMessage("Hello from QtMaterial!", this);
+            QToast::makeToast(this, "This is a toast message!", 3000, QToast::POSITION_BOTTOM);
         });
         
         layout->addStretch();
